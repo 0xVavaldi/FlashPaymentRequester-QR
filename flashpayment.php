@@ -4,7 +4,7 @@ use Endroid\QrCode\QrCode;
 $allowRequestParameters = False;
 
 // replace below address with your own
-$address = ""
+$address = "";
 $amount  = 0; // Leave at 0 to not request a specific amount
 $message = ""; // Optional message
 
