@@ -1,0 +1,55 @@
+<?php
+
+/*
+ * (c) Jeroen van den Enden <info@endroid.nl>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
+namespace Endroid\QrCode\Writer;
+
+use Endroid\QrCode\QrCodeInterface;
+
+class EpsWriter extends AbstractWriter
+{
+    public function writeString(QrCodeInterface $qrCode): string
+    {
+        $data = $this->getData($qrCode);
+
+        $epsData = [];
+        $epsData[] = '%!PS-Adobe-3.0 EPSF-3.0';
+        $epsData[] = '%%BoundingBox: 0 0 '.$data['outer_width'].' '.$data['outer_height'];
+        $epsData[] = '/F { rectfill } def';
+        $epsData[] = ($qrCode->getBackgroundColor()['r'] / 100).' '.($qrCode->getBackgroundColor()['g'] / 100).' '.($qrCode->getBackgroundColor()['b'] / 100).' setrgbcolor';
+        $epsData[] = '0 0 '.$data['outer_width'].' '.$data['outer_height'].' F';
+        $epsData[] = ($qrCode->getForegroundColor()['r'] / 100).' '.($qrCode->getForegroundColor()['g'] / 100).' '.($qrCode->getForegroundColor()['b'] / 100).' setrgbcolor';
+
+        foreach ($data['matrix'] as $row => $values) {
+            foreach ($values as $column => $value) {
+                if (1 === $value) {
+                    $x = $data['margin_left'] + $data['block_size'] * $column;
+                    $y = $data['margin_left'] + $data['block_size'] * $row;
+                    $epsData[] = $x.' '.$y.' '.$data['block_size'].' '.$data['block_size'].' F';
+                }
+            }
+        }
+
+        return implode("\n", $epsData);
+    }
+
+    public static function getContentType(): string
+    {
+        return 'image/eps';
+    }
+
+    public static function getSupportedExtensions(): array
+    {
+        return ['eps'];
+    }
+
+    public function getName(): string
+    {
+        return 'eps';
+    }
+}
