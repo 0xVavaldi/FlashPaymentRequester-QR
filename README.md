@@ -7,4 +7,4 @@ It can also be added manually with the $address and $amount variable on the firs
 Allowing the GET and POST parameters is possible after setting line 4 ($allowRequestParameters) to True instead of the default False.
 
 String format
-'flashcoin:<address>?amount=amount&message=message'
+'flashcoin:[address]?amount=[amount]&message=[message]'
