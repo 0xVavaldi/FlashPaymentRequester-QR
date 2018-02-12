@@ -6,7 +6,7 @@ $allowRequestParameters = False;
 // replace below address with your own
 $address = ""
 $amount  = 0; // Leave at 0 to not request a specific amount
-
+$message = ""; // Optional message
 
 if($allowRequestParameters) {
 	$address = ($_REQUEST['address']) ? $_REQUEST['address'] : $address;
@@ -15,10 +15,10 @@ if($allowRequestParameters) {
 
 
 // Compile parameters
-$string = "{$address}?";
-($amount) ? $string .= "amount={$amount}" : "";
-if($message) {
-	$string .= ($amount) ? "&" : "";
+$string = "{$address}";
+($amount) ? $string .= "?amount={$amount}" : "";
+if(empty($message)) {
+	$string .= ($amount) ? "&" : "?";
 	$string .= "message={$message}";
 }
 
