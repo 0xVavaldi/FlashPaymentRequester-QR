@@ -11,6 +11,7 @@ $message = ""; // Optional message
 if($allowRequestParameters) {
 	$address = ($_REQUEST['address']) ? $_REQUEST['address'] : $address;
 	$amount  = ($_REQUEST['amount']) ? $_REQUEST['amount'] : $amount;
+	$message = ($_REQUEST['message']) ? $_REQUEST['message'] : $message;
 }
 
 
